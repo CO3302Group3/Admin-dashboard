@@ -1,0 +1,94 @@
+/* Full-page layout with background and modern styling */
+.slots-container {
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #1e1e2f, #2c2c3e);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading style */
+.slots-container h2 {
+  font-size: 40px;
+  color: #00f5d4;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Grid layout for card rows */
+.slot-card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+/* Centered row container (2nd row) */
+.full-width-center {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card style */
+.slot-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  color: #e0f2f1;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Hover animation for cards */
+.slot-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Card headings */
+.slot-section h3 {
+  font-size: 22px;
+  color: #64ffda;
+  margin-bottom: 15px;
+  text-shadow: 0 0 6px #64ffda;
+}
+
+/* Card paragraph text */
+.slot-section p {
+  color: #b2dfdb;
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Action button */
+.action-button {
+  background-color: #00c8aa;
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 200, 170, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Button hover */
+.action-button:hover {
+  background-color: #009b85;
+  box-shadow: 0 6px 18px rgba(0, 155, 133, 0.7);
+}

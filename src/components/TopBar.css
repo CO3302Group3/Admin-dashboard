@@ -1,0 +1,44 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(69, 69, 72); /* Top bar background */
+  padding: 10px 20px;
+  
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-icon {
+  font-size: 24px;
+  color: white;
+  margin-right: 10px;
+}
+
+.dashboard-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.right-section {
+  display: flex;
+  gap: 20px;
+}
+
+.tab {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(69, 69, 72); /* Button-style background */
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.tab:hover {
+  background-color: #34344e;
+}
