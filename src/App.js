@@ -7,8 +7,8 @@ import Dashboard from './components/Dashboard';
 import ViewUsers from './pages/ViewUsers';
 import Transactions from './pages/Transactions';
 import ViewSlots from './pages/ViewSlots'; // ✅ Add more pages as needed
-// import Analytics from './pages/Analytics';
-// import Notifications from './pages/Notifications';
+import Analytics from './pages/Analytics';
+ import Notifications from './pages/Notifications';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +38,8 @@ function App() {
                 <Route path="/view-users" element={<ViewUsers />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/view-slots" element={<ViewSlots />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/notifications" element={<Notifications />} />
                 {/* Future Routes:
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/notifications" element={<Notifications />} /> */}

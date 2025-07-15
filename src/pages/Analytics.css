@@ -1,0 +1,91 @@
+.analytics-container {
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #1e1e2f, #2c2c3e);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.analytics-container h2 {
+  font-size: 40px;
+  color: #00f5d4;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+  text-align: center;
+}
+
+.analytics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1000px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.analytics-row-center {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.analytics-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  color: #e0f2f1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 1;
+  min-width: 280px;
+  max-width: 450px;
+}
+
+.analytics-card.large {
+  max-width: 700px;
+  width: 90%;
+}
+
+.analytics-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.analytics-card h3 {
+  font-size: 22px;
+  color: #64ffda;
+  margin-bottom: 15px;
+  text-shadow: 0 0 6px #64ffda;
+}
+
+.analytics-card p {
+  color: #b2dfdb;
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.action-button {
+  background-color: #00c8aa;
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 200, 170, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #009b85;
+  box-shadow: 0 6px 18px rgba(0, 155, 133, 0.7);
+}
