@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import TopBar from './components/TopBar';
 import AdminLogin from './pages/AdminLogin';
+import Signup from './pages/Signup';  // Import SignUp component
 import Dashboard from './components/Dashboard';
 import ViewUsers from './pages/ViewUsers';
 import Transactions from './pages/Transactions';
-import ViewSlots from './pages/ViewSlots'; // ✅ Add more pages as needed
+import ViewSlots from './pages/ViewSlots';
 import Analytics from './pages/Analytics';
- import Notifications from './pages/Notifications';
+import Notifications from './pages/Notifications';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,6 +32,12 @@ function App() {
               }
             />
 
+            {/* ✅ SIGNUP ROUTE */}
+            <Route
+              path="/admin/signup"
+              element={<Signup />}  // Route for SignUp page
+            />
+
             {/* ✅ PROTECTED ROUTES */}
             {isLoggedIn ? (
               <>
@@ -41,8 +48,9 @@ function App() {
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/notifications" element={<Notifications />} />
                 {/* Future Routes:
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/notifications" element={<Notifications />} /> */}
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/notifications" element={<Notifications />} />
+                */}
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </>
             ) : (

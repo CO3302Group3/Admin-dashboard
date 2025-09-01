@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const formStyle = {
@@ -24,68 +24,44 @@ const overlayStyle = {
   zIndex: 0,
 };
 
-const AdminLogin = () => {
-  const [email, setEmail] = useState(''); // Replaced username with email
+const SignUp = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-
-  // Load the email from localStorage if "Remember Me" was checked
-  useEffect(() => {
-    const savedEmail = localStorage.getItem('email');
-    if (savedEmail) {
-      setEmail(savedEmail);
-    }
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate form data
-    if (!email || !password) {
-      setError('Please enter both email and password');
-      return;
-    }
-
-    // Basic email validation
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    const loginData = { email, password };  // Prepare login data with email
     
-    setIsLoading(true); // Set loading state
+    // Validate the form data
+    if (!username || !email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
 
+    const signupData = { username, email, password };  // Create signupData object
+    
     try {
-      const response = await fetch('http://192.168.8.186/auth/login', {
+      const response = await fetch('http://192.168.8.186/auth/register', {
         method: 'POST',
-        body: JSON.stringify(loginData),
+        body: JSON.stringify(signupData),
         headers: { 'Content-Type': 'application/json' },
       });
 
-      const data = await response.json(); // Parse JSON response
+      const data = await response.json(); // Handle JSON response
+
+      console.log('API Response:', data); // Log the API response for debugging
 
       if (response.ok) {
         setError('');
-        if (rememberMe) {
-          localStorage.setItem('email', email); // Save email to localStorage if Remember Me is checked
-        }
-        
-        // Store the JWT token in localStorage
-        localStorage.setItem('access_token', data.access_token);
-        
-        navigate('/dashboard'); // Redirect to dashboard after successful login
+        navigate('/login'); // Redirect to login page after successful signup
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || 'Signup failed'); // Display error message from API
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
-      console.error('Error during login:', error); // Log any network or server errors
-    } finally {
-      setIsLoading(false); // Remove loading state
+      console.error('Error during signup:', error); // Log any network or server errors
     }
   };
 
@@ -107,8 +83,27 @@ const AdminLogin = () => {
 
       <form style={{ ...formStyle, zIndex: 1 }} onSubmit={handleSubmit}>
         <h2 style={{ textAlign: 'center', color: '#2980b9', marginBottom: 10, letterSpacing: 1 }}>
-          Admin Login
+          Sign Up
         </h2>
+
+        {/* Username Field */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <label style={{ fontSize: 15, color: '#34495e', fontWeight: 500 }}>Username</label>
+          <input
+            type="text"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoFocus
+            style={{
+              padding: '10px 12px',
+              border: '1px solid #b2bec3',
+              borderRadius: 6,
+              fontSize: 15,
+              transition: 'border 0.2s',
+            }}
+          />
+        </div>
 
         {/* Email Field */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -118,7 +113,6 @@ const AdminLogin = () => {
             placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            autoFocus
             style={{
               padding: '10px 12px',
               border: '1px solid #b2bec3',
@@ -147,41 +141,9 @@ const AdminLogin = () => {
           />
         </div>
 
-        {/* Forgot Password */}
-        <button
-          type="button"
-          onClick={() => alert('Redirect to Forgot Password Page')}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#3498db',
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            fontSize: '14px',
-            padding: 0,
-            alignSelf: 'flex-end',
-          }}
-        >
-          Forgot Password?
-        </button>
-
-        {/* Remember Me Checkbox */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <input
-            type="checkbox"
-            id="rememberMe"
-            checked={rememberMe}
-            onChange={() => setRememberMe(!rememberMe)}
-          />
-          <label htmlFor="rememberMe" style={{ fontSize: 14, color: '#34495e' }}>
-            Remember Me
-          </label>
-        </div>
-
-        {/* Login Button */}
+        {/* Sign Up Button */}
         <button
           type="submit"
-          disabled={isLoading}
           style={{
             marginTop: 8,
             padding: '6px 16px',
@@ -191,12 +153,12 @@ const AdminLogin = () => {
             borderRadius: 6,
             fontSize: 13,
             fontWeight: 'bold',
-            cursor: isLoading ? 'not-allowed' : 'pointer',
+            cursor: 'pointer',
             transition: 'background 0.2s',
             boxShadow: '0 2px 8px rgba(52, 152, 219, 0.08)',
           }}
         >
-          {isLoading ? 'Logging In...' : 'Login'}
+          Sign Up
         </button>
 
         {/* Error Message */}
@@ -216,7 +178,7 @@ const AdminLogin = () => {
           </div>
         )}
 
-        {/* Sign Up Link */}
+        {/* Login Link */}
         <div
           style={{
             marginTop: 12,
@@ -225,9 +187,9 @@ const AdminLogin = () => {
             textAlign: 'center',
           }}
         >
-          Don’t have an account?{' '}
-          <Link to="/admin/signup" style={{ color: '#2980b9', textDecoration: 'none' }}>
-            Sign Up
+          Already have an account?{' '}
+          <Link to="/login" style={{ color: '#2980b9', textDecoration: 'none' }}>
+            Log In
           </Link>
         </div>
       </form>
@@ -235,4 +197,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default SignUp;
