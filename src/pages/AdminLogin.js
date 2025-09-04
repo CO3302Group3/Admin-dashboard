@@ -25,7 +25,7 @@ const overlayStyle = {
 };
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState(''); // Replaced username with email
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -55,12 +55,12 @@ const AdminLogin = () => {
       return;
     }
 
-    const loginData = { email, password };  // Prepare login data with email
-    
+    const loginData = { email, password };
+
     setIsLoading(true); // Set loading state
 
     try {
-      const response = await fetch('http://192.168.8.186/auth/login', {
+      const response = await fetch('http://192.168.1.75/auth/login', {
         method: 'POST',
         body: JSON.stringify(loginData),
         headers: { 'Content-Type': 'application/json' },
@@ -68,18 +68,25 @@ const AdminLogin = () => {
 
       const data = await response.json(); // Parse JSON response
 
+      console.log('Login Response:', data); // Log the response to inspect it
+
       if (response.ok) {
         setError('');
         if (rememberMe) {
           localStorage.setItem('email', email); // Save email to localStorage if Remember Me is checked
         }
-        
+
         // Store the JWT token in localStorage
         localStorage.setItem('access_token', data.access_token);
-        
+
         navigate('/dashboard'); // Redirect to dashboard after successful login
       } else {
-        setError(data.message || 'Login failed');
+        // Handle specific error messages from the backend
+        if (data.message) {
+          setError(data.message); // Display the error message from the backend
+        } else {
+          setError('Login failed. Please check your credentials and try again.');
+        }
       }
     } catch (error) {
       setError('An error occurred. Please try again.');

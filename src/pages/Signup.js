@@ -43,7 +43,7 @@ const SignUp = () => {
     const signupData = { username, email, password };  // Create signupData object
     
     try {
-      const response = await fetch('http://192.168.8.186/auth/register', {
+      const response = await fetch('http://192.168.1.75/auth/register', {
         method: 'POST',
         body: JSON.stringify(signupData),
         headers: { 'Content-Type': 'application/json' },
