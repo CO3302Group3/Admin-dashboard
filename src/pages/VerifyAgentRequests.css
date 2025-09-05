@@ -1,0 +1,121 @@
+/* General Styling for the Page */
+.verify-agent-requests-container {
+  padding: 20px;
+  background-color: #a7a5a5;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.heading {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Search and Filter Styling */
+.filter-search {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 250px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+/* Agent Requests Table */
+.agents-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.agents-table th,
+.agents-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.agents-table th {
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+}
+
+.agents-table td {
+  font-size: 14px;
+}
+
+/* Status Color Coding */
+.pending-status {
+  color: rgb(255, 0, 0);
+  font-weight: bold;
+}
+
+.approved-status {
+  color: green;
+  font-weight: bold;
+}
+
+.rejected-status {
+  color: red;
+  font-weight: bold;
+}
+
+/* Action Buttons */
+.agents-table td button {
+  padding: 6px 12px;
+  background-color: #535353;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.agents-table td button:hover {
+  background-color: #ddd;
+}
+
+.agents-table td button:active {
+  background-color: #ccc;
+}
+
+.approve-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.reject-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .verify-agent-requests-container {
+    padding: 10px;
+  }
+
+  .search-input {
+    width: 200px;
+  }
+
+  .agents-table th, .agents-table td {
+    padding: 8px;
+  }
+}

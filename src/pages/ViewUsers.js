@@ -1,5 +1,6 @@
 // src/pages/ViewUsers.js
 import React from 'react';
+import { Link } from 'react-router-dom'; 
 import './ViewUsers.css';
 
 const ViewUsers = () => {
@@ -11,13 +12,17 @@ const ViewUsers = () => {
         <div className="user-card">
           <h3>✅ View All Users</h3>
           <p>List all registered users in the system with filters and search.</p>
-          <button>Open</button>
+           <Link to="/viewall-users">
+            <button>Open</button>
+          </Link>
         </div>
 
         <div className="user-card">
           <h3>👮 Verify New Agent Requests</h3>
           <p>Approve or reject agents requesting to register.</p>
+          <Link to="/verifyagent">
           <button>Open</button>
+          </Link>
         </div>
 
         <div className="user-card">

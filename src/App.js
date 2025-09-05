@@ -10,6 +10,8 @@ import ViewSlots from './pages/ViewSlots';
 import Analytics from './pages/Analytics';
 import Notifications from './pages/Notifications';
 import TopBar from './components/TopBar';
+import ViewAllUsers from './pages/ViewAllUsers';
+import VerifyAgentRequests from './pages/VerifyAgentRequests';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,6 +42,9 @@ function App() {
               <>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/view-users" element={<ViewUsers />} />
+                 <Route path="/viewall-users" element={<ViewAllUsers />} />
+                 <Route path="/verifyagent" element={<VerifyAgentRequests />} />
+
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/view-slots" element={<ViewSlots />} />
                 <Route path="/analytics" element={<Analytics />} />

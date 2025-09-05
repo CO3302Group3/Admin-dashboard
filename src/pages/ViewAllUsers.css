@@ -1,0 +1,166 @@
+/* General Styling for the Page */
+.view-users-container {
+  padding: 20px;
+  background-color: #a7a5a5;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.heading {
+  font-size: 2rem;
+  color: #faf7f7;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Search and Filter Styling */
+.filter-search {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 250px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.clear-btn {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.clear-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* View All Users Card */
+.users-card {
+  background-color: #404040;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: white;
+  text-align: center;
+}
+
+.users-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.open-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.open-btn:hover {
+  background-color: #45a049;
+}
+
+/* Users Table */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(166, 165, 165, 0.1);
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.users-table th {
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+}
+
+.users-table td {
+  font-size: 14px;
+}
+
+.users-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status Color Coding */
+.active-status {
+  color: green;
+  font-weight: bold;
+}
+
+.inactive-status {
+  color: red;
+  font-weight: bold;
+}
+
+/* Action Buttons in the Table */
+.users-table td button {
+  padding: 6px 12px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  margin-right: 8px;
+}
+
+.users-table td button:hover {
+  background-color: #ddd;
+}
+
+.users-table td button:active {
+  background-color: #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .view-users-container {
+    padding: 10px;
+  }
+
+  .search-input {
+    width: 200px;
+  }
+
+  .users-card {
+    padding: 15px;
+  }
+
+  .open-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .users-table th, .users-table td {
+    padding: 8px;
+  }
+}
