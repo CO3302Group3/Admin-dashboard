@@ -1,25 +1,27 @@
 import React from 'react';
 
+
 const Dashboard = () => {
   return (
     <div
       style={{
+        height: '100vh', // Full viewport height
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column', // Stack the TopBar and content vertically
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        fontFamily: 'Segoe UI, sans-serif',
+        position: 'relative',
         backgroundImage: `url(${process.env.PUBLIC_URL}/assets/backgroundimage.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        height: '100vh', // full viewport height
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontFamily: 'Segoe UI, sans-serif',
-        position: 'relative',
-        minHeight: '100vh'
-
       }}
     >
-      {/* Overlay box */}
+     
+
+      {/* Main Dashboard Content */}
       <div
         style={{
           background: 'rgba(0, 0, 0, 0.6)',
@@ -31,7 +33,7 @@ const Dashboard = () => {
           boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
           backdropFilter: 'blur(6px)',
           zIndex: 1,
-          marginTop: '60px', // adjust spacing below TopBar
+          marginTop: '60px', // Adjust spacing below TopBar
         }}
       >
         <h1 style={{ fontSize: '42px', marginBottom: '20px', letterSpacing: '1px' }}>

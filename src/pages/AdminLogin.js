@@ -1,30 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-const formStyle = {
-  background: 'rgba(255, 255, 255, 0.55)',
-  padding: '40px 32px',
-  borderRadius: '16px',
-  boxShadow: '0 8px 32px rgba(8, 8, 38, 0.10)',
-  width: '350px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '18px',
-  backdropFilter: 'blur(8px)',
-  border: '1px solid rgba(255,255,255,0.25)',
-};
-
-const overlayStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  background: 'rgba(40, 80, 120, 0.25)',
-  zIndex: 0,
-};
-
-const AdminLogin = () => {
+const AdminLogin = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -32,13 +9,43 @@ const AdminLogin = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  // Load the email from localStorage if "Remember Me" was checked
+  // Form style
+  const formStyle = {
+    background: 'rgba(255, 255, 255, 0.55)',
+    padding: '40px 32px',
+    borderRadius: '16px',
+    boxShadow: '0 8px 32px rgba(8, 8, 38, 0.10)',
+    width: '350px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '18px',
+    backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255,255,255,0.25)',
+  };
+
+  // Overlay style
+  const overlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: 'rgba(40, 80, 120, 0.25)',
+    zIndex: 0,
+  };
+
+  // Check if user is already logged in and redirect to dashboard
   useEffect(() => {
-    const savedEmail = localStorage.getItem('email');
-    if (savedEmail) {
-      setEmail(savedEmail);
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      navigate('/dashboard'); // Redirect to dashboard if token exists
+    } else {
+      const savedEmail = localStorage.getItem('email');
+      if (savedEmail) {
+        setEmail(savedEmail); // Pre-fill email if saved in localStorage
+      }
     }
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,43 +57,41 @@ const AdminLogin = () => {
     }
 
     // Basic email validation
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }
 
     const loginData = { email, password };
+    const basicAuth = 'Basic ' + btoa(`${email}:${password}`);
 
     setIsLoading(true); // Set loading state
 
     try {
       const response = await fetch('http://192.168.1.75/auth/login', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': basicAuth, // Send Basic Authentication header
+        },
         body: JSON.stringify(loginData),
-        headers: { 'Content-Type': 'application/json' },
       });
 
-      const data = await response.json(); // Parse JSON response
-
-      console.log('Login Response:', data); // Log the response to inspect it
+      const data = await response.json();
+      console.log('Login Response:', data);
 
       if (response.ok) {
         setError('');
         if (rememberMe) {
-          localStorage.setItem('email', email); // Save email to localStorage if Remember Me is checked
+          localStorage.setItem('email', email); // Save email if Remember Me is checked
         }
+        localStorage.setItem('access_token', data.access_token); // Save access token
 
-        // Store the JWT token in localStorage
-        localStorage.setItem('access_token', data.access_token);
-
+        onLogin(); // Call onLogin to update the isLoggedIn state in App.js
         navigate('/dashboard'); // Redirect to dashboard after successful login
       } else {
-        // Handle specific error messages from the backend
-        if (data.message) {
-          setError(data.message); // Display the error message from the backend
-        } else {
-          setError('Login failed. Please check your credentials and try again.');
-        }
+        setError(data.message || 'Login failed. Please check your credentials and try again.');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
@@ -113,7 +118,7 @@ const AdminLogin = () => {
       <div style={overlayStyle}></div>
 
       <form style={{ ...formStyle, zIndex: 1 }} onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: 'center', color: '#2980b9', marginBottom: 10, letterSpacing: 1 }}>
+        <h2 style={{ textAlign: 'center', color: '#2980b9', marginBottom: 10, letterSpacing: '1px' }}>
           Admin Login
         </h2>
 

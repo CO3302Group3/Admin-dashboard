@@ -15,9 +15,8 @@ const TopBar = () => {
         <Link to="/view-users" className="tab">Users</Link>
         <Link to="/transactions" className="tab">Transactions</Link>
         <Link to="/analytics" className="tab">Analytics</Link>
-         <Link to="/view-slots" className="tab">Parking Slots</Link>
+        <Link to="/view-slots" className="tab">Parking Slots</Link>
         <Link to="/notifications" className="tab">Notifications</Link>
-       
       </div>
     </div>
   );

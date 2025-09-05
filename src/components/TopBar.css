@@ -4,12 +4,12 @@
   align-items: center;
   background-color: rgb(69, 69, 72); /* Top bar background */
   padding: 10px 20px;
-  
 }
 
 .left-section {
   display: flex;
   align-items: center;
+  flex-grow: 1; /* Allow left section to take the available space */
 }
 
 .dashboard-icon {
@@ -27,6 +27,7 @@
 .right-section {
   display: flex;
   gap: 20px;
+  justify-content: flex-end; /* Align tabs to the right */
 }
 
 .tab {

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import TopBar from './components/TopBar';
 import AdminLogin from './pages/AdminLogin';
-import Signup from './pages/Signup';  // Import SignUp component
+import Signup from './pages/Signup';
 import Dashboard from './components/Dashboard';
 import ViewUsers from './pages/ViewUsers';
 import Transactions from './pages/Transactions';
 import ViewSlots from './pages/ViewSlots';
 import Analytics from './pages/Analytics';
 import Notifications from './pages/Notifications';
+import TopBar from './components/TopBar';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,12 +17,12 @@ function App() {
   return (
     <Router>
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        {/* ✅ Show TopBar only when logged in */}
-        {isLoggedIn && <TopBar onLogout={() => setIsLoggedIn(false)} />}
+        {/* Show TopBar and Main Content only when logged in */}
+        {isLoggedIn && <TopBar />}
 
         <div style={{ flex: 1 }}>
           <Routes>
-            {/* ✅ LOGIN ROUTE */}
+            {/* LOGIN ROUTE */}
             <Route
               path="/admin/login"
               element={
@@ -32,13 +32,10 @@ function App() {
               }
             />
 
-            {/* ✅ SIGNUP ROUTE */}
-            <Route
-              path="/admin/signup"
-              element={<Signup />}  // Route for SignUp page
-            />
+            {/* SIGNUP ROUTE */}
+            <Route path="/admin/signup" element={<Signup />} />
 
-            {/* ✅ PROTECTED ROUTES */}
+            {/* PROTECTED ROUTES */}
             {isLoggedIn ? (
               <>
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -47,10 +44,6 @@ function App() {
                 <Route path="/view-slots" element={<ViewSlots />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/notifications" element={<Notifications />} />
-                {/* Future Routes:
-                  <Route path="/analytics" element={<Analytics />} />
-                  <Route path="/notifications" element={<Notifications />} />
-                */}
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </>
             ) : (
