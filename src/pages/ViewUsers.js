@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './ViewUsers.css';
 
 const ViewUsers = () => {
+
   return (
     <div className="users-container">
       <h2>👥 User Management</h2>
@@ -28,13 +29,17 @@ const ViewUsers = () => {
         <div className="user-card">
           <h3>🛑 Suspend or Ban User</h3>
           <p>Block users who violate system policies.</p>
-          <button>Suspend User</button>
+          <Link to="/suspend-user">
+            <button>Suspend User</button>
+          </Link>
         </div>
 
         <div className="user-card">
           <h3>🔄 View User Activity</h3>
           <p>Track login times, bookings, and session history.</p>
-          <button>View Activity</button>
+          <Link to="/view-user-activity">
+            <button>View Activity</button>
+          </Link>
         </div>
 
         <div className="user-card">

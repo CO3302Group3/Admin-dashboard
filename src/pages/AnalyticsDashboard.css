@@ -1,0 +1,52 @@
+.analytics-dashboard-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
+}
+
+.analytics-dashboard-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(60, 72, 88, 0.15);
+  padding: 2rem 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.5s;
+}
+
+.analytics-dashboard-card h2 {
+  color: #0ea5e9;
+  margin-bottom: 1rem;
+}
+
+.analytics-dashboard-card p {
+  color: #374151;
+  margin-bottom: 1.5rem;
+}
+
+.chart-area {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.chart-placeholder {
+  background: #e0e7ff;
+  border-radius: 12px;
+  padding: 2rem;
+  color: #64748b;
+  font-size: 1.2rem;
+  min-width: 300px;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

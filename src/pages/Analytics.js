@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Analytics.css';
 
 const Analytics = () => {
@@ -11,7 +12,9 @@ const Analytics = () => {
         <div className="analytics-card">
           <h3>📉 View Analytics and Dashboard</h3>
           <p>Track system usage, growth, and key performance indicators.</p>
-          <button className="action-button">Open Dashboard</button>
+          <Link to="/analytics-dashboard">
+            <button className="action-button">Open Dashboard</button>
+          </Link>
         </div>
 
         <div className="analytics-card">
@@ -21,14 +24,7 @@ const Analytics = () => {
         </div>
       </div>
 
-      {/* Row 2 - Full width centered card */}
-      <div className="analytics-row-center">
-        <div className="analytics-card large">
-          <h3>⚠️ Check for Malfunction Reports</h3>
-          <p>Review complaints or system breakdown reports from agents/users.</p>
-          <button className="action-button">View Reports</button>
-        </div>
-      </div>
+    
 
       {/* Row 3 - Full width centered card */}
       <div className="analytics-row-center">

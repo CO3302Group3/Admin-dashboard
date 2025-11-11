@@ -1,95 +1,117 @@
 // src/pages/VerifyAgentRequests.js
-import React, { useState } from 'react';
-import './VerifyAgentRequests.css';
-
-// Sample agent data
-const sampleAgents = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', company: 'ABC Ltd.', status: 'Pending' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', company: 'XYZ Corp.', status: 'Pending' },
-  { id: 3, name: 'Sam Green', email: 'sam@example.com', company: 'Green Co.', status: 'Pending' },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./VerifyAgentRequests.css";
 
 const VerifyAgentRequests = () => {
-  const [agents, setAgents] = useState(sampleAgents);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [agents, setAgents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Handle search input change
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  // Fetch agents from backend
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
+        if (!token) return;
 
-  // Filter agents based on the search term
+        const response = await axios.post(
+          "http://192.168.1.75/admin-management/get_all_non_staff_users",
+          { token }
+        );
+
+        const data = response.data.data;
+        const fetchedAgents = Array.isArray(data.agents) ? data.agents : [];
+
+        setAgents(fetchedAgents); // keep backend status
+      } catch (error) {
+        console.error("Error fetching agents:", error);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
+  // Filter search
   const filteredAgents = agents.filter(
     (agent) =>
-      agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      agent.email.toLowerCase().includes(searchTerm.toLowerCase())
+      agent.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      agent.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handle approve action
-  const approveAgent = (id) => {
-    setAgents((prevAgents) =>
-      prevAgents.map((agent) =>
-        agent.id === id ? { ...agent, status: 'Approved' } : agent
+  // Approve → active
+  const approveAgent = (email) => {
+    setAgents((prev) =>
+      prev.map((agent) =>
+        agent.email === email ? { ...agent, status: "active" } : agent
       )
     );
   };
 
-  // Handle reject action
-  const rejectAgent = (id) => {
-    setAgents((prevAgents) =>
-      prevAgents.map((agent) =>
-        agent.id === id ? { ...agent, status: 'Rejected' } : agent
+  // Reject → inactive
+  const rejectAgent = (email) => {
+    setAgents((prev) =>
+      prev.map((agent) =>
+        agent.email === email ? { ...agent, status: "inactive" } : agent
       )
     );
+  };
+
+  // Action Status logic
+  const getActionStatus = (status) => {
+    if (status === "banned") return "Deleted";
+    if (status === "active") return "Approved";
+    if (status === "inactive") return "Approved";
+    return status;
   };
 
   return (
     <div className="verify-agent-requests-container">
       <h2 className="heading">Verify New Agent Requests</h2>
 
-      {/* Search Bar */}
       <div className="filter-search">
         <input
           type="text"
           placeholder="Search by name or email"
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
       </div>
 
-      {/* Agent Requests Table */}
       <table className="agents-table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Agent Name</th>
             <th>Email</th>
-            <th>Company</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Action Status</th> {/* KEEP THIS */}
+            {/* ❌ Removed Actions column */}
           </tr>
         </thead>
+
         <tbody>
-          {filteredAgents.map((agent) => (
-            <tr key={agent.id}>
-              <td>{agent.name}</td>
+          {filteredAgents.map((agent, i) => (
+            <tr key={i}>
+              <td>{agent.username}</td>
               <td>{agent.email}</td>
-              <td>{agent.company}</td>
-              <td className={agent.status === 'Approved' ? 'approved-status' : agent.status === 'Rejected' ? 'rejected-status' : 'pending-status'}>
+
+              {/* Status */}
+              <td
+                className={
+                  agent.status === "active"
+                    ? "approved-status"
+                    : agent.status === "inactive"
+                    ? "pending-status"
+                    : "rejected-status"
+                }
+              >
                 {agent.status}
               </td>
-              <td>
-                {agent.status === 'Pending' && (
-                  <>
-                    <button onClick={() => approveAgent(agent.id)} className="approve-btn">
-                      Approve
-                    </button>
-                    <button onClick={() => rejectAgent(agent.id)} className="reject-btn">
-                      Reject
-                    </button>
-                  </>
-                )}
-              </td>
+
+              {/* Action Status logic */}
+              <td>{getActionStatus(agent.status)}</td>
+
+              {/* ❌ Removed buttons column */}
             </tr>
           ))}
         </tbody>

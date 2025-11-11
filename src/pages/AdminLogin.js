@@ -9,7 +9,6 @@ const AdminLogin = ({ onLogin }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  // Form style
   const formStyle = {
     background: 'rgba(255, 255, 255, 0.55)',
     padding: '40px 32px',
@@ -23,7 +22,6 @@ const AdminLogin = ({ onLogin }) => {
     border: '1px solid rgba(255,255,255,0.25)',
   };
 
-  // Overlay style
   const overlayStyle = {
     position: 'fixed',
     top: 0,
@@ -34,29 +32,39 @@ const AdminLogin = ({ onLogin }) => {
     zIndex: 0,
   };
 
-  // Check if user is already logged in and redirect to dashboard
+  // ✅ Check token + expiry on page load
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    if (token) {
-      navigate('/dashboard'); // Redirect to dashboard if token exists
+    const expiry = localStorage.getItem('token_expiry');
+
+    if (token && expiry) {
+      const now = new Date().getTime();
+
+      if (now < parseInt(expiry, 10)) {
+        // Token still valid
+        if (typeof onLogin === 'function') onLogin();
+        navigate('/dashboard');
+      } else {
+        // Token expired -> clear it
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_expiry');
+      }
     } else {
       const savedEmail = localStorage.getItem('email');
       if (savedEmail) {
-        setEmail(savedEmail); // Pre-fill email if saved in localStorage
+        setEmail(savedEmail);
       }
     }
-  }, [navigate]);
+  }, [navigate, onLogin]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form data
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
@@ -66,14 +74,14 @@ const AdminLogin = ({ onLogin }) => {
     const loginData = { email, password };
     const basicAuth = 'Basic ' + btoa(`${email}:${password}`);
 
-    setIsLoading(true); // Set loading state
+    setIsLoading(true);
 
     try {
       const response = await fetch('http://192.168.1.75/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': basicAuth, // Send Basic Authentication header
+          'Authorization': basicAuth,
         },
         body: JSON.stringify(loginData),
       });
@@ -83,21 +91,24 @@ const AdminLogin = ({ onLogin }) => {
 
       if (response.ok) {
         setError('');
-        if (rememberMe) {
-          localStorage.setItem('email', email); // Save email if Remember Me is checked
+        if (!rememberMe) {
+          localStorage.setItem('email', email);
+        
         }
-        localStorage.setItem('access_token', data.access_token); // Save access token
+         console.log('access_token:', data.data.access_token);
+        
+          localStorage.setItem('access_token', data.data.access_token);
 
-        onLogin(); // Call onLogin to update the isLoggedIn state in App.js
-        navigate('/dashboard'); // Redirect to dashboard after successful login
+        onLogin();
+        navigate('/dashboard');
       } else {
         setError(data.message || 'Login failed. Please check your credentials and try again.');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
-      console.error('Error during login:', error); // Log any network or server errors
+      console.error('Error during login:', error);
     } finally {
-      setIsLoading(false); // Remove loading state
+      setIsLoading(false);
     }
   };
 
@@ -122,7 +133,6 @@ const AdminLogin = ({ onLogin }) => {
           Admin Login
         </h2>
 
-        {/* Email Field */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <label style={{ fontSize: 15, color: '#34495e', fontWeight: 500 }}>Email</label>
           <input
@@ -141,7 +151,6 @@ const AdminLogin = ({ onLogin }) => {
           />
         </div>
 
-        {/* Password Field */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <label style={{ fontSize: 15, color: '#34495e', fontWeight: 500 }}>Password</label>
           <input
@@ -159,7 +168,6 @@ const AdminLogin = ({ onLogin }) => {
           />
         </div>
 
-        {/* Forgot Password */}
         <button
           type="button"
           onClick={() => alert('Redirect to Forgot Password Page')}
@@ -177,7 +185,6 @@ const AdminLogin = ({ onLogin }) => {
           Forgot Password?
         </button>
 
-        {/* Remember Me Checkbox */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <input
             type="checkbox"
@@ -190,7 +197,6 @@ const AdminLogin = ({ onLogin }) => {
           </label>
         </div>
 
-        {/* Login Button */}
         <button
           type="submit"
           disabled={isLoading}
@@ -211,7 +217,6 @@ const AdminLogin = ({ onLogin }) => {
           {isLoading ? 'Logging In...' : 'Login'}
         </button>
 
-        {/* Error Message */}
         {error && (
           <div
             style={{
@@ -228,7 +233,6 @@ const AdminLogin = ({ onLogin }) => {
           </div>
         )}
 
-        {/* Sign Up Link */}
         <div
           style={{
             marginTop: 12,

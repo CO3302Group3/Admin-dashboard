@@ -28,40 +28,40 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user_type, setUserType] = useState(''); // default user type
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate the form data
-    if (!username || !email || !password) {
+
+    // Validate form fields
+    if (!username || !email || !password || !user_type) {
       setError('Please fill in all fields');
       return;
     }
 
-    const signupData = { username, email, password };  // Create signupData object
-    
+    const signupData = { username, email, password, user_type }; // Include userType
+
     try {
-      const response = await fetch('http://192.168.1.75/auth/register', {
+      const response = await fetch('http://192.168.1.75/admin-management/register_admin', {
         method: 'POST',
         body: JSON.stringify(signupData),
         headers: { 'Content-Type': 'application/json' },
       });
 
-      const data = await response.json(); // Handle JSON response
-
-      console.log('API Response:', data); // Log the API response for debugging
+      const data = await response.json();
+      console.log('API Response:', data);
 
       if (response.ok) {
         setError('');
-        navigate('/login'); // Redirect to login page after successful signup
+        navigate('/login');
       } else {
-        setError(data.message || 'Signup failed'); // Display error message from API
+        setError(data.message || 'Signup failed');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
-      console.error('Error during signup:', error); // Log any network or server errors
+      console.error('Error during signup:', error);
     }
   };
 
@@ -139,6 +139,26 @@ const SignUp = () => {
               transition: 'border 0.2s',
             }}
           />
+        </div>
+
+        {/* User Type Field */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <label style={{ fontSize: 15, color: '#34495e', fontWeight: 500 }}>User Type</label>
+          <select
+            value={user_type}
+            onChange={(e) => setUserType(e.target.value)}
+            style={{
+              padding: '10px 12px',
+              border: '1px solid #b2bec3',
+              borderRadius: 6,
+              fontSize: 15,
+              backgroundColor: '#fff',
+              cursor: 'pointer',
+            }}
+          >
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+          </select>
         </div>
 
         {/* Sign Up Button */}

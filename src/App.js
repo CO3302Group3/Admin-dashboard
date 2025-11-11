@@ -12,6 +12,9 @@ import Notifications from './pages/Notifications';
 import TopBar from './components/TopBar';
 import ViewAllUsers from './pages/ViewAllUsers';
 import VerifyAgentRequests from './pages/VerifyAgentRequests';
+import SuspendUser from './pages/SuspendUser';
+import ViewUserActivity from './pages/ViewUserActivity';
+import AnalyticsDashboard from './pages/AnalyticsDashboard';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,8 +45,11 @@ function App() {
               <>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/view-users" element={<ViewUsers />} />
-                 <Route path="/viewall-users" element={<ViewAllUsers />} />
-                 <Route path="/verifyagent" element={<VerifyAgentRequests />} />
+                <Route path="/viewall-users" element={<ViewAllUsers />} />
+                <Route path="/verifyagent" element={<VerifyAgentRequests />} />
+                <Route path="/suspend-user" element={<SuspendUser />} />
+                <Route path="/view-user-activity" element={<ViewUserActivity />} />
+                <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
 
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/view-slots" element={<ViewSlots />} />
