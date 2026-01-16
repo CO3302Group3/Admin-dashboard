@@ -44,7 +44,7 @@ const SignUp = () => {
     const signupData = { username, email, password, user_type }; // Include userType
 
     try {
-      const response = await fetch('http://192.168.1.75/admin-management/register_admin', {
+      const response = await fetch('http://192.168.8.186/auth/register', {
         method: 'POST',
         body: JSON.stringify(signupData),
         headers: { 'Content-Type': 'application/json' },

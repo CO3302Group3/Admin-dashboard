@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./SuspendUser.css";
+import {
+  Box,
+  Container,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  CircularProgress,
+  useTheme
+} from '@mui/material';
+import BlockIcon from '@mui/icons-material/Block';
 
 const SuspendUser = () => {
   const [bannedUsers, setBannedUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchBannedUsers = async () => {
@@ -12,7 +29,7 @@ const SuspendUser = () => {
         if (!token) return;
 
         const response = await axios.post(
-          "http://192.168.1.75/admin-management/get_all_non_staff_users",
+          "http://192.168.8.186/admin-management/get_all_non_staff_users",
           { token },
           {
             headers: {
@@ -36,6 +53,8 @@ const SuspendUser = () => {
         setBannedUsers(banned);
       } catch (error) {
         console.error("Error fetching banned users:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -43,46 +62,89 @@ const SuspendUser = () => {
   }, []);
 
   return (
-    <div className="view-users-container">
-      <h2 className="heading">🛑 Banned Users</h2>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, #1a237e 100%)`,
+        py: 5,
+        px: 3
+      }}
+    >
+      <Container maxWidth="lg">
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{
+            fontWeight: 'bold',
+            color: '#ff1744',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 2,
+            mb: 4
+          }}
+        >
+          <BlockIcon sx={{ fontSize: 40 }} /> Banned Users
+        </Typography>
 
-      <table className="users-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {bannedUsers.length > 0 ? (
-            bannedUsers.map((user, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td
-                  style={{
-                    color: "red",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {user.status}
-                </td>
-              </tr>
-            ))
+        <Paper
+          sx={{
+            p: 3,
+            background: 'rgba(50, 0, 0, 0.6)', // Reddish tint
+            backdropFilter: 'blur(10px)',
+            borderRadius: 4,
+            border: '1px solid rgba(255, 23, 68, 0.3)',
+          }}
+        >
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}>
+              <CircularProgress color="error" />
+            </Box>
           ) : (
-            <tr>
-              <td colSpan="4" style={{ textAlign: "center" }}>
-                No banned users found
-              </td>
-            </tr>
+            <TableContainer component={Paper} elevation={0} sx={{ background: 'transparent' }}>
+              <Table sx={{ minWidth: 650 }}>
+                <TableHead>
+                  <TableRow sx={{ '& th': { color: '#ffcdd2', fontWeight: 'bold', borderBottom: '1px solid rgba(255,23,68,0.3)' } }}>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Username</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bannedUsers.length > 0 ? (
+                    bannedUsers.map((user, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                          '& td': { color: '#fff', borderBottom: '1px solid rgba(255,23,68,0.1)' },
+                          '&:hover': { bgcolor: 'rgba(255,23,68,0.1)' }
+                        }}
+                      >
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{user.username}</TableCell>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>
+                          <Chip label={user.status} color="error" variant="filled" size="small" />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={4} align="center" sx={{ py: 3, color: 'text.secondary' }}>
+                        No banned users found.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
           )}
-        </tbody>
-      </table>
-    </div>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 

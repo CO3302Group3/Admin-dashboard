@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Container,
+  Alert,
+  CircularProgress,
+  useTheme
+} from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const AdminLogin = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -8,29 +22,7 @@ const AdminLogin = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-
-  const formStyle = {
-    background: 'rgba(255, 255, 255, 0.55)',
-    padding: '40px 32px',
-    borderRadius: '16px',
-    boxShadow: '0 8px 32px rgba(8, 8, 38, 0.10)',
-    width: '350px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '18px',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(255,255,255,0.25)',
-  };
-
-  const overlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    background: 'rgba(40, 80, 120, 0.25)',
-    zIndex: 0,
-  };
+  const theme = useTheme();
 
   // ✅ Check token + expiry on page load
   useEffect(() => {
@@ -77,7 +69,7 @@ const AdminLogin = ({ onLogin }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://192.168.1.75/auth/login', {
+      const response = await fetch('http://192.168.8.186/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,15 +83,14 @@ const AdminLogin = ({ onLogin }) => {
 
       if (response.ok) {
         setError('');
-        if (!rememberMe) {
+        if (rememberMe) { // Fixed logic: only save if checked
           localStorage.setItem('email', email);
-        
         }
-         console.log('access_token:', data.data.access_token);
-        
-          localStorage.setItem('access_token', data.data.access_token);
 
-        onLogin();
+        console.log('access_token:', data.data.access_token);
+        localStorage.setItem('access_token', data.data.access_token);
+
+        if (typeof onLogin === 'function') onLogin();
         navigate('/dashboard');
       } else {
         setError(data.message || 'Login failed. Please check your credentials and try again.');
@@ -113,141 +104,141 @@ const AdminLogin = ({ onLogin }) => {
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundImage: `url(${process.env.PUBLIC_URL}/assets/backgroundimage.jpg)`,
+        backgroundImage: `linear-gradient(rgba(10, 25, 41, 0.7), rgba(10, 25, 41, 0.9)), url(${process.env.PUBLIC_URL}/assets/backgroundimage.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        position: 'relative',
       }}
     >
-      <div style={overlayStyle}></div>
-
-      <form style={{ ...formStyle, zIndex: 1 }} onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: 'center', color: '#2980b9', marginBottom: 10, letterSpacing: '1px' }}>
-          Admin Login
-        </h2>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <label style={{ fontSize: 15, color: '#34495e', fontWeight: 500 }}>Email</label>
-          <input
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-            style={{
-              padding: '10px 12px',
-              border: '1px solid #b2bec3',
-              borderRadius: 6,
-              fontSize: 15,
-              transition: 'border 0.2s',
-            }}
-          />
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <label style={{ fontSize: 15, color: '#34495e', fontWeight: 500 }}>Password</label>
-          <input
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              padding: '10px 12px',
-              border: '1px solid #b2bec3',
-              borderRadius: 6,
-              fontSize: 15,
-              transition: 'border 0.2s',
-            }}
-          />
-        </div>
-
-        <button
-          type="button"
-          onClick={() => alert('Redirect to Forgot Password Page')}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#3498db',
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            fontSize: '14px',
-            padding: 0,
-            alignSelf: 'flex-end',
+      <Container component="main" maxWidth="xs">
+        <Paper
+          elevation={24}
+          sx={{
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            background: 'rgba(19, 47, 76, 0.8)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: 4,
+            border: '1px solid rgba(255, 255, 255, 0.1)',
           }}
         >
-          Forgot Password?
-        </button>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <input
-            type="checkbox"
-            id="rememberMe"
-            checked={rememberMe}
-            onChange={() => setRememberMe(!rememberMe)}
-          />
-          <label htmlFor="rememberMe" style={{ fontSize: 14, color: '#34495e' }}>
-            Remember Me
-          </label>
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          style={{
-            marginTop: 8,
-            padding: '6px 16px',
-            background: 'linear-gradient(90deg, #2980b9, #6dd5fa)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 6,
-            fontSize: 13,
-            fontWeight: 'bold',
-            cursor: isLoading ? 'not-allowed' : 'pointer',
-            transition: 'background 0.2s',
-            boxShadow: '0 2px 8px rgba(52, 152, 219, 0.08)',
-          }}
-        >
-          {isLoading ? 'Logging In...' : 'Login'}
-        </button>
-
-        {error && (
-          <div
-            style={{
-              color: '#e74c3c',
-              background: '#fdecea',
-              borderRadius: 4,
-              padding: 8,
-              marginTop: 8,
-              textAlign: 'center',
-              fontSize: 14,
+          <Box
+            sx={{
+              m: 1,
+              bgcolor: 'primary.main',
+              borderRadius: '50%',
+              p: 2,
+              boxShadow: '0 0 20px rgba(0, 229, 255, 0.5)'
             }}
           >
-            {error}
-          </div>
-        )}
+            <LockOutlinedIcon sx={{ color: 'black', fontSize: 30 }} />
+          </Box>
+          <Typography component="h1" variant="h4" sx={{ mb: 3, fontWeight: 'bold', color: 'white' }}>
+            Admin Login
+          </Typography>
 
-        <div
-          style={{
-            marginTop: 12,
-            fontSize: 13,
-            color: '#34495e',
-            textAlign: 'center',
-          }}
-        >
-          Don’t have an account?{' '}
-          <Link to="/admin/signup" style={{ color: '#2980b9', textDecoration: 'none' }}>
-            Sign Up
-          </Link>
-        </div>
-      </form>
-    </div>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                  '&:hover fieldset': { borderColor: 'primary.main' },
+                }
+              }}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                  '&:hover fieldset': { borderColor: 'primary.main' },
+                }
+              }}
+            />
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value="remember"
+                    color="primary"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+                }
+                label="Remember me"
+              />
+              <RouterLink to="#" style={{ color: theme.palette.primary.main, textDecoration: 'none', fontSize: '14px' }}>
+                Forgot password?
+              </RouterLink>
+            </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={isLoading}
+              sx={{
+                mt: 3,
+                mb: 2,
+                py: 1.5,
+                fontSize: '16px',
+                background: 'linear-gradient(45deg, #00e5ff, #00b0ff)',
+                color: 'black',
+                fontWeight: 'bold',
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #00b0ff, #00e5ff)',
+                }
+              }}
+            >
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
+            </Button>
+
+            {error && (
+              <Alert severity="error" sx={{ mt: 2, borderRadius: 2 }}>
+                {error}
+              </Alert>
+            )}
+
+            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+              <Typography variant="body2">
+                Don't have an account?{' '}
+                <RouterLink to="/admin/signup" style={{ color: theme.palette.primary.main, textDecoration: 'none', fontWeight: 'bold' }}>
+                  Sign Up
+                </RouterLink>
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 

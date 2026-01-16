@@ -11,10 +11,11 @@ import Analytics from './pages/Analytics';
 import Notifications from './pages/Notifications';
 import TopBar from './components/TopBar';
 import ViewAllUsers from './pages/ViewAllUsers';
-import VerifyAgentRequests from './pages/VerifyAgentRequests';
+import VerifyParkingSlots from './pages/VerifyParkingSlots';
 import SuspendUser from './pages/SuspendUser';
 import ViewUserActivity from './pages/ViewUserActivity';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import AllParkingSlots from './pages/AllParkingSlots';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,7 +47,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/view-users" element={<ViewUsers />} />
                 <Route path="/viewall-users" element={<ViewAllUsers />} />
-                <Route path="/verifyagent" element={<VerifyAgentRequests />} />
+                <Route path="/verifyagent" element={<VerifyParkingSlots />} />
                 <Route path="/suspend-user" element={<SuspendUser />} />
                 <Route path="/view-user-activity" element={<ViewUserActivity />} />
                 <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
@@ -55,6 +56,8 @@ function App() {
                 <Route path="/view-slots" element={<ViewSlots />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/notifications" element={<Notifications />} />
+                {/* Remove duplicate Notifications route */}
+                <Route path="/view-all-slots" element={<AllParkingSlots />} />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </>
             ) : (

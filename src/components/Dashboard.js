@@ -1,75 +1,124 @@
 import React from 'react';
-
+import { Box, Container, Typography, Grid, Card, CardContent, useTheme } from '@mui/material';
+import GroupIcon from '@mui/icons-material/Group';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 const Dashboard = () => {
+  const theme = useTheme();
+
   return (
-    <div
-      style={{
-        height: '100vh', // Full viewport height
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column', // Stack the TopBar and content vertically
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        fontFamily: 'Segoe UI, sans-serif',
-        position: 'relative',
-        backgroundImage: `url(${process.env.PUBLIC_URL}/assets/backgroundimage.jpg)`,
+    <Box
+      sx={{
+        flexGrow: 1,
+        minHeight: '100vh',
+        background: `linear-gradient(rgba(10, 25, 41, 0.8), rgba(10, 25, 41, 0.95)), url(${process.env.PUBLIC_URL}/assets/backgroundimage.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: 8
       }}
     >
-     
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            textAlign: 'center',
+            mb: 8,
+            animation: 'fadeIn 1s ease-in'
+          }}
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: 800,
+              background: 'linear-gradient(45deg, #00e5ff, #7c4dff)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              mb: 2,
+              textShadow: '0 0 40px rgba(0, 229, 255, 0.3)'
+            }}
+          >
+            🚀 Welcome, Admin!
+          </Typography>
+          <Typography variant="h5" color="text.secondary" sx={{ maxWidth: '800px', mx: 'auto', lineHeight: 1.6 }}>
+            Command Center Active. Monitor users, analyze transactions, and manage system alerts efficiently.
+          </Typography>
+        </Box>
 
-      {/* Main Dashboard Content */}
-      <div
-        style={{
-          background: 'rgba(0, 0, 0, 0.6)',
-          padding: '50px 60px',
-          borderRadius: '20px',
-          textAlign: 'center',
-          color: 'white',
-          maxWidth: '700px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-          backdropFilter: 'blur(6px)',
-          zIndex: 1,
-          marginTop: '60px', // Adjust spacing below TopBar
-        }}
-      >
-        <h1 style={{ fontSize: '42px', marginBottom: '20px', letterSpacing: '1px' }}>
-          🚀 Welcome, Admin!
-        </h1>
-        <p style={{ fontSize: '18px', color: '#ddd', marginBottom: '30px' }}>
-          This is your powerful control center to manage everything — users, slots, payments, and system health.
-        </p>
-
-        <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px' }}>
-          <div style={featureCard}>
-            <h3>👥 Manage Users</h3>
-            <p>Add, suspend, or verify agents and users efficiently.</p>
-          </div>
-          <div style={featureCard}>
-            <h3>📊 Monitor Analytics</h3>
-            <p>Track parking trends, revenue, and slot performance.</p>
-          </div>
-          <div style={featureCard}>
-            <h3>🔔 Handle Alerts</h3>
-            <p>Instantly resolve reports, complaints, and system issues.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid size={{ xs: 12, md: 4 }}>
+            <DashboardCard
+              icon={<GroupIcon sx={{ fontSize: 50, color: theme.palette.primary.main }} />}
+              title="Manage Users"
+              description="Add, verify, or suspend users and agents with real-time updates."
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <DashboardCard
+              icon={<BarChartIcon sx={{ fontSize: 50, color: theme.palette.secondary.main }} />}
+              title="Monitor Analytics"
+              description="Track revenue, parking slot usage, and performance metrics."
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <DashboardCard
+              icon={<NotificationsActiveIcon sx={{ fontSize: 50, color: '#ff9100' }} />}
+              title="Handle Alerts"
+              description="Respond to system notifications and user reports instantly."
+            />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
-const featureCard = {
-  background: 'rgba(255, 255, 255, 0.1)',
-  padding: '16px 20px',
-  borderRadius: '12px',
-  width: '200px',
-  backdropFilter: 'blur(2px)',
-  color: 'white',
-  boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-};
+const DashboardCard = ({ icon, title, description }) => (
+  <Card
+    sx={{
+      height: '100%',
+      p: 2,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      cursor: 'pointer',
+      '&:hover': {
+        transform: 'translateY(-12px)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+        borderColor: 'primary.main',
+        '& .icon-box': {
+          transform: 'scale(1.1) rotate(5deg)'
+        }
+      }
+    }}
+  >
+    <CardContent>
+      <Box
+        className="icon-box"
+        sx={{
+          mb: 3,
+          transition: 'transform 0.3s ease',
+          display: 'inline-flex',
+          p: 2,
+          borderRadius: '50%',
+          bgcolor: 'rgba(255,255,255,0.05)'
+        }}
+      >
+        {icon}
+      </Box>
+      <Typography variant="h5" fontWeight="bold" gutterBottom>
+        {title}
+      </Typography>
+      <Typography variant="body1" color="text.secondary">
+        {description}
+      </Typography>
+    </CardContent>
+  </Card>
+);
 
 export default Dashboard;
