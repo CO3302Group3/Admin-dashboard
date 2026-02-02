@@ -6,7 +6,6 @@ import {
   Typography,
   Grid,
   Card,
-  CardContent,
   Button,
   useTheme
 } from '@mui/material';
@@ -60,7 +59,7 @@ const ViewUsers = () => {
       title: 'User Complaints',
       description: 'Handle user-reported issues or feedback.',
       icon: <ReportIcon sx={{ fontSize: 50, color: '#d500f9' }} />,
-      path: '#', // Placeholder
+      path: '/view-complaints',
       btnText: 'View Reports',
       btnColor: 'secondary'
     },

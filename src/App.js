@@ -16,6 +16,7 @@ import SuspendUser from './pages/SuspendUser';
 import ViewUserActivity from './pages/ViewUserActivity';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AllParkingSlots from './pages/AllParkingSlots';
+import ViewComplaints from './pages/ViewComplaints';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/notifications" element={<Notifications />} />
                 {/* Remove duplicate Notifications route */}
                 <Route path="/view-all-slots" element={<AllParkingSlots />} />
+                <Route path="/view-complaints" element={<ViewComplaints />} />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </>
             ) : (
