@@ -6,11 +6,16 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 const TopBar = () => {
   const location = useLocation();
 
+  // Hide TopBar on specific pages
+  if (location.pathname === '/dashboard' || location.pathname.includes('/view-connected-devices')) {
+    return null;
+  }
+
   const navItems = [
     { label: 'Dashboard', path: '/dashboard' },
     { label: 'Users', path: '/view-users' },
-    { label: 'Transactions', path: '/transactions' },
-    { label: 'Analytics', path: '/analytics' },
+
+
     { label: 'Slots', path: '/view-slots' },
     { label: 'Notifications', path: '/notifications' },
   ];

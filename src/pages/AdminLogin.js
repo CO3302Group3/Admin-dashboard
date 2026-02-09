@@ -69,7 +69,7 @@ const AdminLogin = ({ onLogin }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://192.168.8.186/auth/login', {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

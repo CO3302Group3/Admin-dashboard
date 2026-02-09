@@ -14,6 +14,7 @@ import {
     useTheme,
     Alert
 } from '@mui/material';
+import BackButton from '../components/BackButton';
 
 const ViewComplaints = () => {
     const [complaints, setComplaints] = useState([]);
@@ -30,7 +31,7 @@ const ViewComplaints = () => {
                     return;
                 }
 
-                const response = await fetch('http://192.168.8.186/auth/admin/complaints', {
+                const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/auth/admin/complaints`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -81,6 +82,7 @@ const ViewComplaints = () => {
             }}
         >
             <Container maxWidth="lg">
+                <BackButton />
                 <Typography
                     variant="h4"
                     align="center"

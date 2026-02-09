@@ -29,6 +29,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user_type, setUserType] = useState(''); // default user type
+  const [status, setStatus] = useState('active'); // default status
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -41,10 +42,10 @@ const SignUp = () => {
       return;
     }
 
-    const signupData = { username, email, password, user_type }; // Include userType
+    const signupData = { username, password, email, user_type, status }; // Include userType and status
 
     try {
-      const response = await fetch('http://192.168.8.186/auth/register', {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/auth/register`, {
         method: 'POST',
         body: JSON.stringify(signupData),
         headers: { 'Content-Type': 'application/json' },
@@ -160,6 +161,12 @@ const SignUp = () => {
             <option value="Admin">Admin</option>
           </select>
         </div>
+
+        {/* Hidden Status Field */}
+        <input
+          type="hidden"
+          value={status}
+        />
 
         {/* Sign Up Button */}
         <button

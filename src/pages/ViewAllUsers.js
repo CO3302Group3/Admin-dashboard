@@ -20,6 +20,7 @@ import {
   useTheme
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import BackButton from '../components/BackButton';
 
 const ViewAllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -39,7 +40,7 @@ const ViewAllUsers = () => {
         }
 
         const response = await axios.post(
-          'http://192.168.8.186/admin-management/get_all_non_staff_users',
+          `${process.env.REACT_APP_SERVER_IP}/admin-management/get_all_non_staff_users`,
           { token }
         );
 
@@ -87,6 +88,7 @@ const ViewAllUsers = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h4"
           align="center"

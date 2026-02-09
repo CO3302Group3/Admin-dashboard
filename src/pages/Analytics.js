@@ -14,6 +14,7 @@ import {
   Timeline as TimelineIcon,
   Security as SecurityIcon
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const Analytics = () => {
   const theme = useTheme();
@@ -56,6 +57,7 @@ const Analytics = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           align="center"

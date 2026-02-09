@@ -17,6 +17,7 @@ import {
   TableRow,
   Paper
 } from '@mui/material';
+import BackButton from '../components/BackButton';
 import {
   LocalParking as LocalParkingIcon,
   PlaylistAddCheck as PlaylistAddCheckIcon,
@@ -64,6 +65,7 @@ const ViewSlots = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           align="center"

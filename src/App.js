@@ -10,6 +10,7 @@ import ViewSlots from './pages/ViewSlots';
 import Analytics from './pages/Analytics';
 import Notifications from './pages/Notifications';
 import TopBar from './components/TopBar';
+import Sidebar from './components/Sidebar';
 import ViewAllUsers from './pages/ViewAllUsers';
 import VerifyParkingSlots from './pages/VerifyParkingSlots';
 import SuspendUser from './pages/SuspendUser';
@@ -17,16 +18,18 @@ import ViewUserActivity from './pages/ViewUserActivity';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AllParkingSlots from './pages/AllParkingSlots';
 import ViewComplaints from './pages/ViewComplaints';
+import ViewConnectedDevices from './pages/ViewConnectedDevices';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Router>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        {/* Show TopBar and Main Content only when logged in */}
-        {isLoggedIn && <TopBar />}
+      <div style={{ display: 'flex', flexDirection: 'row', minHeight: '100vh', width: '100%' }}>
+        {/* Sidebar visible when logged in */}
+        {isLoggedIn && <Sidebar />}
 
+        {/* Main Content Area */}
         <div style={{ flex: 1 }}>
           <Routes>
             {/* LOGIN ROUTE */}
@@ -57,9 +60,10 @@ function App() {
                 <Route path="/view-slots" element={<ViewSlots />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/notifications" element={<Notifications />} />
-                {/* Remove duplicate Notifications route */}
+
                 <Route path="/view-all-slots" element={<AllParkingSlots />} />
                 <Route path="/view-complaints" element={<ViewComplaints />} />
+                <Route path="/view-connected-devices" element={<ViewConnectedDevices />} />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </>
             ) : (

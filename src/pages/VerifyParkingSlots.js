@@ -9,6 +9,7 @@ import {
     Cancel as CancelIcon,
     Refresh as RefreshIcon
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const VerifyParkingSlots = () => {
     const [slots, setSlots] = useState([]);
@@ -17,8 +18,7 @@ const VerifyParkingSlots = () => {
     const [actionLoading, setActionLoading] = useState(null);
     const theme = useTheme();
 
-    // Use your actual backend IP
-    const BASE_URL = 'http://192.168.8.186'; 
+
 
     useEffect(() => {
         fetchPendingSlots();
@@ -27,7 +27,7 @@ const VerifyParkingSlots = () => {
     const fetchPendingSlots = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${BASE_URL}/parking_slots`, { method: 'GET' });
+            const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/parking_slots`, { method: 'GET' });
             if (!response.ok) throw new Error(`Failed to fetch slots: ${response.statusText}`);
 
             const data = await response.json();
@@ -47,7 +47,7 @@ const VerifyParkingSlots = () => {
     const handleUpdateStatus = async (slotId, newStatus) => {
         try {
             setActionLoading(slotId);
-            const token = localStorage.getItem("token"); 
+            const token = localStorage.getItem("token");
 
             if (!token) {
                 alert("Authentication token not found. Please login again.");
@@ -73,7 +73,7 @@ const VerifyParkingSlots = () => {
                     available_days: currentSlot.available_days || [],
                     bikes_allowed: currentSlot.bikes_allowed || 0,
                     total_spaces: currentSlot.total_spaces || 0,
-                    
+
                     // CRITICAL FIX: Explicitly sending null if value is missing
                     assigned_device_id: currentSlot.assigned_device_id ? currentSlot.assigned_device_id : null,
 
@@ -84,7 +84,7 @@ const VerifyParkingSlots = () => {
                 }
             };
 
-            const response = await fetch(`${BASE_URL}/parking_slots/${slotId}`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/parking_slots/${slotId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,6 +119,7 @@ const VerifyParkingSlots = () => {
     return (
         <Box sx={{ minHeight: '100vh', background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, #1a237e 100%)`, pt: 5, pb: 5 }}>
             <Container maxWidth="lg">
+                <BackButton />
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
                     <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#fff' }}>
                         📋 Verify Parking Requests

@@ -34,6 +34,7 @@ import {
   Block as BlockIcon,
   Warning as WarningIcon
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const ViewUserActivity = () => {
   const [users, setUsers] = useState([]);
@@ -60,7 +61,7 @@ const ViewUserActivity = () => {
         throw new Error("No authentication token found. Please log in again.");
       }
 
-      const response = await fetch('http://192.168.8.186/auth/users/activity', {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/auth/users/activity`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -228,6 +229,7 @@ const ViewUserActivity = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           align="center"

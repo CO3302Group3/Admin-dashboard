@@ -16,6 +16,7 @@ import {
   Percent as PercentIcon,
   PriceChange as PriceChangeIcon
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const Transactions = () => {
   const theme = useTheme();
@@ -75,6 +76,7 @@ const Transactions = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           align="center"

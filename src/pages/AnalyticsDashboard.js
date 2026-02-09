@@ -24,6 +24,7 @@ import {
   AttachMoney,
   LocalParking
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const AnalyticsDashboard = () => {
   const theme = useTheme();
@@ -54,6 +55,7 @@ const AnalyticsDashboard = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           gutterBottom

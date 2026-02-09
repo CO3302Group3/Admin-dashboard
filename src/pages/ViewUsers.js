@@ -17,6 +17,7 @@ import {
   Report as ReportIcon,
   Devices as DevicesIcon
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const ViewUsers = () => {
   const theme = useTheme();
@@ -67,7 +68,7 @@ const ViewUsers = () => {
       title: 'Connected Devices',
       description: 'Check which devices are linked to user accounts.',
       icon: <DevicesIcon sx={{ fontSize: 50, color: '#2979ff' }} />,
-      path: '#', // Placeholder
+      path: '/view-connected-devices',
       btnText: 'View Devices',
       btnColor: 'info'
     }
@@ -83,6 +84,7 @@ const ViewUsers = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           align="center"

@@ -27,6 +27,7 @@ import {
   Send as SendIcon,
   CloudUpload as CloudUploadIcon
 } from '@mui/icons-material';
+import BackButton from '../components/BackButton';
 
 const Notifications = () => {
   const theme = useTheme();
@@ -43,10 +44,42 @@ const Notifications = () => {
   const [otaData, setOtaData] = useState({ version: '', description: '' });
 
   // Handlers
-  const handleBroadcastSubmit = () => {
-    console.log('Sending Broadcast:', broadcastData);
-    alert(`Broadcast Sent: ${broadcastData.title}`);
-    setBroadcastOpen(false);
+  const handleBroadcastSubmit = async () => {
+    try {
+      const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+      if (!token) {
+        alert("Authentication token not found. Please log in.");
+        return;
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/device_notification/broadcast`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Assuming Bearer token, or pass as query/body depending on backend
+        },
+        body: JSON.stringify({
+          title: broadcastData.title,
+          message: broadcastData.message,
+          target_audience: broadcastData.target,
+          token: token // Sending token in body as well just in case, consistent with other endpoints
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error: ${response.status} - ${errorText}`);
+      }
+
+      console.log('Broadcast Sent:', broadcastData);
+      alert(`Broadcast Sent Successfully: ${broadcastData.title}`);
+      setBroadcastOpen(false);
+      setBroadcastData({ title: '', message: '', target: 'all' }); // Reset form
+
+    } catch (error) {
+      console.error("Failed to send broadcast:", error);
+      alert(`Failed to send broadcast: ${error.message}`);
+    }
   };
 
   const handleOtaSubmit = () => {
@@ -65,6 +98,7 @@ const Notifications = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h3"
           align="center"

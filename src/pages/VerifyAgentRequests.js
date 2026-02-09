@@ -36,7 +36,7 @@ const VerifyAgentRequests = () => {
         if (!token) return;
 
         const response = await axios.post(
-          "http://192.168.8.186/admin-management/get_all_non_staff_users",
+          `${process.env.REACT_APP_SERVER_IP}/admin-management/get_all_non_staff_users`,
           { token }
         );
 

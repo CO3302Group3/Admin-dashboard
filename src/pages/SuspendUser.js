@@ -16,6 +16,7 @@ import {
   useTheme
 } from '@mui/material';
 import BlockIcon from '@mui/icons-material/Block';
+import BackButton from '../components/BackButton';
 
 const SuspendUser = () => {
   const [bannedUsers, setBannedUsers] = useState([]);
@@ -25,11 +26,16 @@ const SuspendUser = () => {
   useEffect(() => {
     const fetchBannedUsers = async () => {
       try {
-        const token = localStorage.getItem("access_token");
-        if (!token) return;
+        // Prioritize access_token as AdminLogin sets this
+        const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+        console.log("Using Token:", token); // Debugging
+
+        if (!token) {
+          throw new Error("No authentication token found. Please log in.");
+        }
 
         const response = await axios.post(
-          "http://192.168.8.186/admin-management/get_all_non_staff_users",
+          `${process.env.REACT_APP_SERVER_IP}/admin-management/get_all_non_staff_users`,
           { token },
           {
             headers: {
@@ -71,6 +77,7 @@ const SuspendUser = () => {
       }}
     >
       <Container maxWidth="lg">
+        <BackButton />
         <Typography
           variant="h4"
           align="center"
